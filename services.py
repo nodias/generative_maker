@@ -1,9 +1,17 @@
+import copy
+
 import numpy as np
 import cv2 as cv
 
 
-def makeImage(properties, count, path):
+def makeMeta(property):
+    print("@MAKE_META")
+    print(property)
+
+
+def makeImage(properties, count, path, property):
     for c in range(0, count):
+        property_this = copy.deepcopy(property)
         result = None;
         for p in properties:
             print(str(c) + '. ' + p)
@@ -13,8 +21,10 @@ def makeImage(properties, count, path):
             else:
                 img = cv.imread(properties_path, -1)
                 result = overlayImage(result, img, 0, 0)
-            print(str(c) + '. ' + p + "-----------------------")
+            property_this[p] = properties[p][c]
+            print(str(c) + '. ' + str(properties[p][c]) + "-----------------------")
         cv.imwrite('out/save' + str(c) + '.png', result)
+        makeMeta(property_this)
 
 
 def overlayImage(background, overlay, x, y):

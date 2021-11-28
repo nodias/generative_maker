@@ -10,6 +10,7 @@ import pathlib
 # property_counts 세팅
 property_counts = {"background": 0, "body": 0, "clothes": 0, "head": 0, "moustache": 0,
                    "hand": 0}
+property = copy.deepcopy(property_counts)
 
 path = "png"
 for p in property_counts:
@@ -32,7 +33,6 @@ for p in property_counts:
         limits[p][c] = 9999
 
 limits["background"][1] = 2
-limits["head"][0] = 0
 
 print("## limits_count ##")
 print(limits)
@@ -56,7 +56,7 @@ def randomSelect(num):
 
 
 # make!
-count = 300
+count = 3
 
 for c in range(0, count):
     for p in properties:
@@ -71,4 +71,4 @@ print("## properties ##")
 print(properties)
 
 # makeImages
-services.makeImage(properties, count, path)
+services.makeImage(properties, count, path, property)
