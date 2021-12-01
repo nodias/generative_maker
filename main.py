@@ -1,18 +1,26 @@
 import copy
-import os
-import random
 import services
 import pathlib
 
-# TODO head와 clothes의 일부 처럼 겹치는 경우
+path = "png"
+# PYTHON 3.6이상 필요, dict 정렬 관련.
 
+# property를 path폴더 내부의 폴더들을 이용해 세팅함.
+print("## properties init ##")
+properties_list = list(pathlib.Path(path).glob("[!.]*"))
+properties_list.sort()
+print(properties_list)
+# final_property = str(properties_list[len(properties_list) - 1])[len(path) + 1:]
+# print("final_property")
+# print(final_property)
+
+properties = {}
+for p in properties_list:
+    properties[str(p)[len(path) + 1:]] = 0
 
 # property_counts 세팅
-property_counts = {"background": 0, "body": 0, "clothes": 0, "head": 0, "moustache": 0,
-                   "hand": 0}
-property = copy.deepcopy(property_counts)
+property_counts = copy.deepcopy(properties)
 
-path = "png"
 for p in property_counts:
     property_path = path + '/' + p
     file_list = len(list(pathlib.Path(property_path).glob("*.png")))
@@ -21,54 +29,83 @@ for p in property_counts:
 print("## property_counts ##")
 print(property_counts)
 
-# limits and count 세팅
-limits = {"background": {}, "body": {}, "clothes": {}, "head": {}, "moustache": {},
-          "hand": {}}
-limits_count = {"background": {}, "body": {}, "clothes": {}, "head": {}, "moustache": {},
-                "hand": {}}
+limits = copy.deepcopy(properties)
+limits_count = copy.deepcopy(properties)
+result_properties = copy.deepcopy(properties)
+final_properties = copy.deepcopy(properties)
+
+for li in limits:
+    limits[li] = {}
+    limits_count[li] = {}
+    result_properties[li] = []
 
 for p in property_counts:
     for c in range(0, property_counts[p]):
         limits_count[p][c] = 0
         limits[p][c] = 9999
 
-limits["background"][1] = 2
+# ----- CUSTOM ----------------------------------
+# limits["0_background"][0] = 1
+# limits["1_body"][0] = 1
+# limits["2_clothes"][0] = 1
+# limits["3_head"][0] = 1
+# limits["4_mustache"][0] = 1
+# limits["5_hand"][0] = 1
+# limits["0_background"][1] = 0
+# limits["1_body"][1] = 0
+# limits["2_clothes"][1] = 0
+# limits["3_head"][1] = 0
+# limits["4_mustache"][1] = 0
+# limits["5_hand"][1] = 0
+# ----- CUSTOM ----------------------------------
 
-print("## limits_count ##")
+print("## limits ##")
 print(limits)
 
-properties = {"background": [], "body": [], "clothes": [], "head": [], "moustache": [],
-              "hand": []}
 
-
-def randomSelect(num):
-    random_num = random.randrange(0, property_counts[p])
-    if limits_count[p][random_num] < limits[p][random_num]:
-        if p == "head":
-            if properties["clothes"][num] == 5:
-                properties[p].append(0)
-                limits_count[p][0] = limits_count[p][0] + 1
-                return
-        properties[p].append(random_num)
-        limits_count[p][random_num] = limits_count[p][random_num] + 1
+def roop_result(c):
+    for p in result_properties:
+        services.randomSelect(c, property_counts, limits_count, limits, p, result_properties)
+    str_at = ""
+    for p in result_properties:
+        str_at += str(result_properties[p][c]) + "_"
+    if str_at not in onlyOne:
+        onlyOne[str_at] = True
     else:
-        randomSelect(num)
+        for p in result_properties:
+            limits_count[p][result_properties[p][-1]] -= 1
+            result_properties[p].pop()
+        roop_result(c)
 
 
 # make!
-count = 3
+create_count = 10000
+onlyOne = {};
+for c in range(0, create_count):
+    roop_result(c)
 
-for c in range(0, count):
-    for p in properties:
-        randomSelect(c)
+print("## OnlyOne")
+print(onlyOne)
+
+# 갯수 검증
+print("## final properties count is : ##")
+print(limits_count)
+for li in limits_count:
+    count = 0
+    for c in limits_count[li]:
+        count = count + limits_count[li][c]
+    final_properties[li] = count
+
+print(final_properties)
+print("##################################")
 
 # 테스트용
-# properties = {"background": [0], "body": [1], "clothes": [5], "head": [0], "moustache": [8],
+# properties = {"background": [0], "body": [1], "clothes": [5], "head": [0], "mustache": [8],
 #               "hand": [5]}
 # properties["clothes"]
 
-print("## properties ##")
-print(properties)
+print("## result_properties ##")
+print(result_properties)
 
 # makeImages
-services.makeImage(properties, count, path, property)
+services.makeImage(result_properties, create_count, path, properties)
