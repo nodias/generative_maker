@@ -79,7 +79,7 @@ def roop_result(c):
 
 
 # make!
-create_count = 10000
+create_count = 20
 onlyOne = {};
 for c in range(0, create_count):
     roop_result(c)
@@ -100,9 +100,8 @@ print(final_properties)
 print("##################################")
 
 # 테스트용
-# properties = {"background": [0], "body": [1], "clothes": [5], "head": [0], "mustache": [8],
-#               "hand": [5]}
-# properties["clothes"]
+# result_properties = {"0_background": [3], "1_body": [0], "2_clothes": [9], "3_head": [10], "4_mustache": [1],
+#               "5_hand": [0]}
 
 print("## result_properties ##")
 print(result_properties)

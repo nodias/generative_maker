@@ -21,15 +21,17 @@ def makeMeta(properties, name):
             before_json = before_json + " ,"
         before_json = before_json + '{ ' \
                                     '"trait_type" : "' + json_p_name[p] + '",' \
-                                                             '"value" : "' + json_pa_name[p][str(properties[p])] + '"' \
-                                                                                                  ' }'
+                                                                          '"value" : "' + json_pa_name[p][
+                          str(properties[p])] + '"' \
+                                                ' }'
         i = i + 1
 
     after_json = '], ' \
                  '"description" : "The world\'s most adorable and sensitive pup.", ' \
                  '"image" : "ipfs://", ' \
-                 '"name" : "CipherAssembly" ' \
-                 '}'
+                 '"edition" : ' + name + ', ' \
+                                         '"name" : "CipherAssembly #' + name + '" ' \
+                                                                               '}'
 
     meta = before_json + after_json
 
