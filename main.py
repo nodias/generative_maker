@@ -45,18 +45,28 @@ for p in property_counts:
         limits[p][c] = 9999
 
 # ----- CUSTOM ----------------------------------
-# limits["0_background"][0] = 1
-# limits["1_body"][0] = 1
-# limits["2_clothes"][0] = 1
-# limits["3_head"][0] = 1
-# limits["4_mustache"][0] = 1
-# limits["5_hand"][0] = 1
-# limits["0_background"][1] = 0
-# limits["1_body"][1] = 0
-# limits["2_clothes"][1] = 0
-# limits["3_head"][1] = 0
-# limits["4_mustache"][1] = 0
-# limits["5_hand"][1] = 0
+limits["0_background"][5] = 465
+limits["2_clothes"][0] = 150
+limits["2_clothes"][5] = 254
+limits["2_clothes"][9] = 254
+limits["2_clothes"][11] = 201
+limits["2_clothes"][13] = 231
+limits["2_clothes"][14] = 188
+limits["2_clothes"][16] = 248
+limits["3_item1"][1] = 134
+limits["3_item1"][2] = 127
+limits["3_item1"][19] = 65
+limits["3_item1"][20] = 34
+limits["4_head"][11] = 200
+limits["4_head"][16] = 204
+limits["4_head"][19] = 178
+limits["4_head"][20] = 189
+limits["4_head"][21] = 207
+limits["6_hand"][6] = 15
+limits["6_hand"][12] = 92
+limits["7_item2"][1] = 200
+limits["7_item2"][2] = 211
+limits["7_item2"][3] = 195
 # ----- CUSTOM ----------------------------------
 
 print("## limits ##")
@@ -79,7 +89,7 @@ def roop_result(c):
 
 
 # make!
-create_count = 20
+create_count = 1
 onlyOne = {};
 for c in range(0, create_count):
     roop_result(c)
@@ -100,8 +110,8 @@ print(final_properties)
 print("##################################")
 
 # 테스트용
-# result_properties = {"0_background": [3], "1_body": [0], "2_clothes": [9], "3_head": [10], "4_mustache": [1],
-#               "5_hand": [0]}
+result_properties = {"0_background": [0], "1_body": [0], "2_clothes": [1], "3_item1": [0], "4_head": [3],
+              "5_mustache": [2], "6_hand": [4], "7_item2": [0]}
 
 print("## result_properties ##")
 print(result_properties)

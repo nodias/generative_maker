@@ -27,7 +27,6 @@ def makeMeta(properties, name):
         i = i + 1
 
     after_json = '], ' \
-                 '"description" : "The world\'s most adorable and sensitive pup.", ' \
                  '"image" : "ipfs://", ' \
                  '"edition" : ' + name + ', ' \
                                          '"name" : "CipherAssembly #' + name + '" ' \
@@ -99,7 +98,19 @@ def randomSelect(num, property_counts, limits_count, limits, p, result_propertie
     random_num = random.randrange(0, property_counts[p])
     if limits_count[p][random_num] < limits[p][random_num]:
         # ----- CUSTOM ----------------------------------
-        if p == "3_head":
+        if p == "4_head":
+            if result_properties["2_clothes"][num] == 5:
+                result_properties[p].append(0)
+                limits_count[p][0] = limits_count[p][0] + 1
+                return
+            if random_num == 11 or random_num == 16:
+                if result_properties["3_item1"][num] not in [0, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]:
+                    randomSelect(num, property_counts, limits_count, limits, p, result_properties)
+                    return
+                result_properties[p].append(random_num)
+                limits_count[p][random_num] = limits_count[p][random_num] + 1
+                return
+        if p == "3_item1":
             if result_properties["2_clothes"][num] == 5:
                 result_properties[p].append(0)
                 limits_count[p][0] = limits_count[p][0] + 1
